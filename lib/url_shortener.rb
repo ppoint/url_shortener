@@ -1,5 +1,3 @@
-#!/usr/bin/env ruby
-
 require 'sinatra'
 require 'sinatra/json'
 require 'json'
@@ -20,8 +18,4 @@ end
 
 post '/decode' do
   json :error => "not implemented yet"
-end
-
-get '/' do
-  json :error => "route not implemented - URL Shortener service"
 end
