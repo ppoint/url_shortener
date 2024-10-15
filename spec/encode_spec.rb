@@ -8,6 +8,14 @@ def app
   Sinatra::Application
 end
 
+RSpec.describe '#make_short_url' do
+  it "generates a unique shortened URL string" do
+    url = 'http://example.com/foo/bar'
+    short_url = make_short_url(url)
+    expect(short_url).to eq('http://ex.eg/asdf')
+  end
+end
+
 RSpec.describe 'POST /encode' do
 
   context "receives JSON with 'url' as the only required parameter" do

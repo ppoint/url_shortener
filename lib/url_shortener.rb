@@ -4,6 +4,7 @@ require 'json'
 require 'sqlite3'
 
 BASE_SHORT_URL = "http://ex.eg"
+DB = SQLite3::Database.new('db/development.sqlite3')
 
 post '/encode' do
   content_type :json
@@ -28,5 +29,5 @@ post '/decode' do
 end
 
 def make_short_url(url)
-  "#{BASE_SHORT_URL}/"
+  "#{BASE_SHORT_URL}/asdf"
 end
