@@ -1,6 +1,7 @@
 require 'sinatra'
 require 'sinatra/json'
 require 'json'
+require 'sqlite3'
 
 BASE_SHORT_URL = "http://ex.eg"
 

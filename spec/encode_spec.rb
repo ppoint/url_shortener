@@ -4,6 +4,7 @@ HEADERS = { 'CONTENT_TYPE' => 'application/json' }
 
 
 def app
+  # I think that 'app' is the name that's expected by Rack.
   Sinatra::Application
 end
 

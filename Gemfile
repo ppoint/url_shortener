@@ -3,12 +3,11 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.3.5"
 
-require "bundler/setup"
-
 gem "sinatra"
 gem "sinatra-contrib"
 gem "rackup"
 gem "puma"
+gem "sqlite3"
 
 group :development, :test do
   gem "rerun"
