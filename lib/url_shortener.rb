@@ -11,13 +11,20 @@ post '/encode' do
 
   data = JSON.parse(request.body.read)
   if (data['url'])
-    short_url = make_short_url(data['url'])
-    result = {
-      :url => data['url'],
-      :short_url => short_url,
-    }
-    # @TODO when we add DB component, we'll need to handle cases where a URL has already been shortened
-    json result
+    short_url = DB.execute("SELECT short_url FROM urls WHERE url = ?", data['url']).first
+    if short_url
+      result = { error: "URL already shortened",
+                 url: data['url'], short_url: short_url }
+      status 409  # HTTP 409 "Conflict"   # @TODO: or should we use something like HTTP 303 "See Other" ?
+      json result
+    else
+      short_url = make_short_url(data['url'])
+      DB.execute("INSERT INTO urls (url, short_url) VALUES (?, ?)",
+                  [data['url'], short_url] )
+      result = { url: data['url'], short_url: short_url }
+      status 200
+      json result
+    end
   else
     status 400
     { error: "POST is missing JSON field 'url'" }.to_json

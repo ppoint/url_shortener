@@ -13,6 +13,7 @@ group :development, :test do
   gem "rerun"
   gem "rspec"
   gem "rack-test"
+  gem "debug"
 end
 
 
