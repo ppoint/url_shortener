@@ -35,6 +35,10 @@ post '/decode' do
   json :error => "not implemented yet"
 end
 
+def generate_short_id(url)
+  Digest::SHA1.hexdigest(url)[0,6]    # Take only the first 6 chars
+end
+
 def make_short_url(url)
-  "#{BASE_SHORT_URL}/asdf"
+  "#{BASE_SHORT_URL}/#{generate_short_id(url)}"
 end

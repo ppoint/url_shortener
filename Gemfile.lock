@@ -6,6 +6,7 @@ GEM
       irb (~> 1.10)
       reline (>= 0.3.8)
     diff-lcs (1.5.1)
+    digest (3.1.1)
     ffi (1.17.0)
     ffi (1.17.0-x86_64-linux-gnu)
     io-console (0.7.2)
@@ -85,6 +86,7 @@ PLATFORMS
 
 DEPENDENCIES
   debug
+  digest
   logger
   ostruct
   puma

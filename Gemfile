@@ -8,6 +8,7 @@ gem "sinatra-contrib"
 gem "rackup"
 gem "puma"
 gem "sqlite3"
+gem "digest"
 
 group :development, :test do
   gem "rerun"
