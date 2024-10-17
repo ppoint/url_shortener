@@ -4,7 +4,19 @@ require 'json'
 require 'sqlite3'
 
 BASE_SHORT_URL = "http://ex.eg"
-DB = SQLite3::Database.new('db/development.sqlite3')
+DB_FILENAME = 'db/development.sqlite3'
+DB_SCHEMA = 'db/schema.sql'
+
+
+create_schema = false
+if !FileTest.exist?(DB_FILENAME)
+  create_schema = true
+end
+DB = SQLite3::Database.new(DB_FILENAME)
+if create_schema
+  schema_file = File.read(DB_SCHEMA)
+  DB.execute(schema_file)
+end
 
 post '/encode' do
   content_type :json
@@ -32,7 +44,23 @@ post '/encode' do
 end
 
 post '/decode' do
-  json :error => "not implemented yet"
+  content_type :json
+  data = JSON.parse(request.body.read)
+  if (data['short_url'])
+    long_url = DB.execute("SELECT url FROM urls WHERE short_url = ?", data['short_url']).first
+    if long_url
+      result = { url: long_url, short_url: data['short_url'] }
+      status 200
+      json result
+    else
+      result = { error: "Short URL not recognized" }
+      status 404
+      json result
+    end
+  else
+    status 400
+    { error: "POST is missing JSON field 'short_url'" }.to_json
+  end
 end
 
 def generate_short_id(url)
