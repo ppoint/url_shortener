@@ -8,6 +8,11 @@ DB_FILENAME = 'db/development.sqlite3'
 DB_SCHEMA = 'db/schema.sql'
 
 
+
+######################################################################
+# Connect to (and possibly create) database
+######################################################################
+
 create_schema = false
 if !FileTest.exist?(DB_FILENAME)
   create_schema = true
@@ -17,6 +22,25 @@ if create_schema
   schema_file = File.read(DB_SCHEMA)
   DB.execute(schema_file)
 end
+
+
+######################################################################
+# Subroutines
+######################################################################
+
+def generate_short_id(url)
+  Digest::SHA1.hexdigest(url)[0,6]    # Take only the first 6 chars
+end
+
+def make_short_url(url)
+  "#{BASE_SHORT_URL}/#{generate_short_id(url)}"
+end
+
+
+
+######################################################################
+# REST routes
+######################################################################
 
 post '/encode' do
   content_type :json
@@ -61,12 +85,4 @@ post '/decode' do
     status 400
     { error: "POST is missing JSON field 'short_url'" }.to_json
   end
-end
-
-def generate_short_id(url)
-  Digest::SHA1.hexdigest(url)[0,6]    # Take only the first 6 chars
-end
-
-def make_short_url(url)
-  "#{BASE_SHORT_URL}/#{generate_short_id(url)}"
 end

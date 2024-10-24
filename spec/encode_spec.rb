@@ -10,17 +10,22 @@ end
 
 RSpec.describe '#make_short_url' do
   it "generates a unique shortened URL string" do
-    url = 'http://example.com/foo/bar'
-    short_url = make_short_url(url)
-    expect(short_url).to eq('http://ex.eg/asdf')
+    short_url = make_short_url('http://example.com/foo/bar')
+    expect(short_url).to match(/ex.eg\/\w{6}/)   # ex.eg/ followed by 6 char
   end
 end
+
 
 RSpec.describe 'POST /encode' do
 
   context "receives JSON with 'url' as the only required parameter" do
     it "converts 'url' to a short-url" do
-      post '/'
+      payload = { url: 'example.com/fred' }.to_json
+      post '/encode', payload, HEADERS
+
+      expect(last_response.status).to eq(200)
+      response_body = JSON.parse(last_response.body)
+      expect(response_body['short_url']).to match(/ex.eg\/\w{6}/)
     end
 
   end
