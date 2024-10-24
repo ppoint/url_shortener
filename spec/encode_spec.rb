@@ -2,11 +2,8 @@ require_relative 'spec_helper'
 
 HEADERS = { 'CONTENT_TYPE' => 'application/json' }
 
+puts ENV['RACK_ENV']
 
-def app
-  # I think that 'app' is the name that's expected by Rack.
-  Sinatra::Application
-end
 
 RSpec.describe '#make_short_url' do
   it "generates a unique shortened URL string" do

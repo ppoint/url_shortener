@@ -4,7 +4,8 @@ require 'json'
 require 'sqlite3'
 
 BASE_SHORT_URL = "http://ex.eg"
-DB_FILENAME = 'db/development.sqlite3'
+ENV['RACK_ENV'] ||= 'development'
+DB_FILENAME = "db/#{ENV['RACK_ENV']}.sqlite3"
 DB_SCHEMA = 'db/schema.sql'
 
 
